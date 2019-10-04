@@ -6,6 +6,7 @@ import subprocess
 
 import numpy
 import pandas
+from pkg_resources import resource_filename
 
 logger = logging.getLogger(__name__)
 BITEPI_BINARY = 'BitEpi.o'
@@ -156,11 +157,7 @@ class Epistasis(object):
             raise ValueError("threads must be a positive integer, got"
                              f" {threads}")
 
-        binary_directory = os.path.dirname(__file__)
-        if binary_directory:
-            binary = os.path.join(binary_directory, BITEPI_BINARY)
-        else:
-            binary = BITEPI_BINARY
+        binary = resource_filename(__name__, BITEPI_BINARY)
         args = [binary]
         thresholds = {
             '-p1': p1,
