@@ -39,6 +39,7 @@ setup(
     description=('Python wrapper for the BitEpi program, for finding epistasis'
                  'interactions'),
     long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Brendan Hosking',
     author_email='brendan.hosking@csiro.au',
     url='https://github.com/bhosking/bitepi-python',
