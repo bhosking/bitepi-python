@@ -5,31 +5,6 @@ import subprocess
 
 VERSION = '0.1.3'
 
-
-# Compile BitEpi
-subprocess.run(
-    args=[
-        'g++',
-        '-o',
-        os.path.join('bitepi', 'BitEpi.o'),
-        '-O3',
-        os.path.join('source', 'BitEpi.cpp'),
-        os.path.join('source', 'csvparser.c'),
-        '-pthread',
-    ],
-    check=True,
-)
-
-# mark BitEpi.o executable
-subprocess.run(
-    args=[
-        'chmod',
-        '+x',
-        os.path.join('bitepi', 'BitEpi.o'),
-    ],
-    check=True,
-)
-
 with open('README.md', 'r') as readme_file:
     long_description = readme_file.read()
 
@@ -60,3 +35,26 @@ setup(
     ],
 )
 
+# Compile BitEpi
+subprocess.run(
+    args=[
+        'g++',
+        '-o',
+        os.path.join('bitepi', 'BitEpi.o'),
+        '-O3',
+        os.path.join('source', 'BitEpi.cpp'),
+        os.path.join('source', 'csvparser.c'),
+        '-pthread',
+    ],
+    check=True,
+)
+
+# mark BitEpi.o executable
+subprocess.run(
+    args=[
+        'chmod',
+        '+x',
+        os.path.join('bitepi', 'BitEpi.o'),
+    ],
+    check=True,
+)
