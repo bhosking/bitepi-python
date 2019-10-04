@@ -50,12 +50,12 @@ setup(
         'pandas',
     ],
     classifiers=[
-        'Development Status :: 4 - Beta'
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
         'License :: Other/Proprietary License',
-        'Operating System :: POSIX'
-        'Programming Language :: Python :: 3 :: Only'
-        'Topic :: Scientific/Engineering :: Bio-Informatics'
+        'Operating System :: POSIX',
+        'Programming Language :: Python :: 3 :: Only',
+        'Topic :: Scientific/Engineering :: Bio-Informatics',
     ],
 )
 
