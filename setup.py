@@ -3,7 +3,7 @@ import os.path
 import subprocess
 
 
-VERSION = '0.1.4'
+VERSION = '0.1.5'
 
 with open('README.md', 'r') as readme_file:
     long_description = readme_file.read()
