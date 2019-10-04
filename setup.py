@@ -3,7 +3,7 @@ import os.path
 import subprocess
 
 
-VERSION = '0.1'
+VERSION = '0.1.1'
 
 
 # Compile BitEpi
