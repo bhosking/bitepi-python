@@ -1,9 +1,20 @@
-from setuptools import setup
-import os.path
-import subprocess
+from setuptools import setup, Extension
 
 
 VERSION = '0.1.5'
+
+# the c++ extension module
+bitepi_ext = Extension(
+    name='bitepimodule',
+    sources=[
+        'bitepi/source/wrapper.cpp',
+        'bitepi/source/csvparser.c',
+    ],
+    extra_compile_args=[
+        '-O3',
+        '-pthread',
+    ],
+)
 
 with open('README.md', 'r') as readme_file:
     long_description = readme_file.read()
@@ -25,6 +36,14 @@ setup(
         'numpy',
         'pandas',
     ],
+    ext_modules=[
+        bitepi_ext,
+    ],
+    package_data={
+        'bitepi': [
+            'binary_source/*'
+        ]
+    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
@@ -33,28 +52,4 @@ setup(
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Scientific/Engineering :: Bio-Informatics',
     ],
-)
-
-# Compile BitEpi
-subprocess.run(
-    args=[
-        'g++',
-        '-o',
-        os.path.join('bitepi', 'BitEpi.o'),
-        '-O3',
-        os.path.join('source', 'BitEpi.cpp'),
-        os.path.join('source', 'csvparser.c'),
-        '-pthread',
-    ],
-    check=True,
-)
-
-# mark BitEpi.o executable
-subprocess.run(
-    args=[
-        'chmod',
-        '+x',
-        os.path.join('bitepi', 'BitEpi.o'),
-    ],
-    check=True,
 )
