@@ -2,11 +2,11 @@ import glob
 import logging
 import os
 import uuid
-import subprocess
 
 import numpy
 import pandas
-from pkg_resources import resource_filename
+
+from bitepimodule import bitepi
 
 logger = logging.getLogger(__name__)
 BITEPI_BINARY = 'BitEpi.o'
@@ -55,9 +55,12 @@ class Epistasis(object):
             analysis will be done on the intersect of the two arrays.
         :raises ValueError: If either sample_array or genotype_array are
             malformed, or don't contain matching samples and
-            strict_intersect is True.
+            strict_intersect is True. Also if working_directory contains
+            so many special characters that a working delimiter is
+            unable to be found.
         """
         self._working_directory = working_directory
+        self._arg_delimiter = self._get_arg_delimiter()
         self._genotype_list = self._convert_to_list(genotype_array)
         logger.debug("Converted genotype array:\n%s\nInto:\n%s",
                      genotype_array, self._genotype_list)
@@ -145,8 +148,6 @@ class Epistasis(object):
                     Only present in "best_ig".
         :raises bitepi.ReturnCodeError: If the binary returns a non-zero
             error code.
-        :raises subprocess.TimeoutExpired: If the binary doesn't stop
-            after output is complete.
         :raises ValueError: If the thresholds are set to values other
             than -1, or in the half-open range [0, 1). If threads is not
             a positive integer.
@@ -157,8 +158,6 @@ class Epistasis(object):
             raise ValueError("threads must be a positive integer, got"
                              f" {threads}")
 
-        binary = resource_filename(__name__, BITEPI_BINARY)
-        args = [binary]
         thresholds = {
             '-p1': p1,
             '-p2': p2,
@@ -169,6 +168,7 @@ class Epistasis(object):
             '-ig3': ig3,
             '-ig4': ig4,
         }
+        args = ['bitepi']  # first argument is ignored
         for threshold_name, value in thresholds.items():
             if value is not None:
                 if value == -1:  # Benchmark only - no results
@@ -191,21 +191,11 @@ class Epistasis(object):
             args.append('-sort')
         if best_ig:
             args.append('-bestIG')
-        logger.info("Calling: %s", ' '.join(args))
-        process = subprocess.Popen(
-            args=args,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-        )
-        with process.stdout:
-            for line in process.stdout:
-                logger.debug(line.decode().rstrip('\n'))
-        try:
-            return_code = process.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            logger.error("Error when calling binary, binary is not"
-                         " responding.")
-            raise
+        delimiter = self._arg_delimiter
+        argstring = delimiter.join(args)
+        logger.info("Calling: bitepi('%s', '%s'", delimiter,
+                    argstring)
+        return_code = bitepi(delimiter, argstring)
         if return_code != 0:
             logger.error("Error when calling binary, got return-code %s.",
                          return_code)
@@ -240,6 +230,14 @@ class Epistasis(object):
             for genotype in self._genotype_list[1:]
         ]
         return array_list
+
+    def _get_arg_delimiter(self):
+        """Picks a delimiter that won't otherwise appear in args."""
+        for delimiter in [' ', '!', '<', '>', '^', ':']:
+            if delimiter not in self._working_directory:
+                return delimiter
+        return ValueError("working_directory contains too many special"
+                          " characters, no unique delimiter could be found.")
 
     def _get_random_filename(self):
         """Construct a random filename in the working directory."""
