@@ -152,7 +152,6 @@ struct ARGS
 		for (uint32 i = 1; i < argc; i++)
 		{
 			next = false;
-			printf(argv[i]);
 
 			// check if purity flag is passed for any order
 			for (uint32 o = 0; o < MAX_ORDER; o++)
