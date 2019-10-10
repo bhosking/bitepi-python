@@ -30,7 +30,7 @@ setup(
     author_email='brendan.hosking@csiro.au',
     url='https://github.com/bhosking/bitepi-python',
     download_url=('https://github.com/bhosking/bitepi-python/archive/'
-                  f'v{VERSION}.tar.gz'),
+                  'v{version}.tar.gz'.format(version=VERSION)),
     keywords=['BIONINFORMATICS', 'EPISTASIS'],
     install_requires=[
         'numpy',

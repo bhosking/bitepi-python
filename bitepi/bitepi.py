@@ -155,8 +155,8 @@ class Epistasis(object):
         # Check threads argument
         if int(threads) != threads:
             logger.error("Got invalid argument threads=%s", threads)
-            raise ValueError("threads must be a positive integer, got"
-                             f" {threads}")
+            raise ValueError("threads must be a positive integer, got "
+                             + str(threads))
 
         thresholds = {
             '-p1': p1,
@@ -178,9 +178,13 @@ class Epistasis(object):
                 else:
                     logger.error("Got invalid argument %s=%s", threshold_name,
                                  value)
-                    raise ValueError("Thresholds (p/ig1-4) must be in the"
-                                     " range [0, 1), or -1 for benchmarking."
-                                     f"{threshold_name[1:]} is {value}.")
+                    error_string = (
+                        "Thresholds (p/ig1-4) must be in the range [0, 1), or"
+                        " -1 for benchmarking. {threshold_name} is {value}."
+                        "".format(threshold_name=threshold_name[1:],
+                                  value=value)
+                    )
+                    raise ValueError(error_string)
         output_prefix = os.path.join(self._working_directory, uuid.uuid4().hex)
         args += [
             '-i', self._array_csv,
@@ -200,10 +204,10 @@ class Epistasis(object):
             logger.error("Error when calling binary, got return-code %s.",
                          return_code)
             raise ReturnCodeError(
-                f"BitEpi.o returned non-zero error code {return_code}")
+                "BitEpi.o returned non-zero error code " + str(return_code))
         response_dict = {}
         output_prefix_length = len(output_prefix) + 1
-        for file_name in glob.glob(f'{output_prefix}*'):
+        for file_name in glob.glob(output_prefix + '*'):
             file_suffix = file_name[output_prefix_length:]
             key = OUTPUT_SUFFIXES[file_suffix]
             logger.debug("Ingesting %s into '%s'", file_name, key)
@@ -241,7 +245,7 @@ class Epistasis(object):
 
     def _get_random_filename(self):
         """Construct a random filename in the working directory."""
-        return os.path.join(self._working_directory, f'{uuid.uuid4().hex}.csv')
+        return os.path.join(self._working_directory, uuid.uuid4().hex + '.csv')
 
     def _validate_arrays(self, strict_intersect=False):
         """Ensure the array has the correct format and values."""
@@ -290,14 +294,14 @@ class Epistasis(object):
         missing_genotype_samples = len(genotype_samples) - num_shared_samples
         missing_sample_samples = len(sample_samples) - num_shared_samples
         if missing_genotype_samples:
-            msg = (f"{missing_genotype_samples} samples from genotype array"
-                   " are missing in sample array.")
+            msg = (str(missing_genotype_samples) + " samples from genotype"
+                   " array are missing in sample array.")
             if strict_intersect:
                 raise ValueError(msg)
             else:
                 logger.warning(msg)
         if missing_sample_samples:
-            msg = (f"{missing_sample_samples} samples from sample array"
+            msg = (str(missing_sample_samples) + " samples from sample array"
                    " are missing in genotype array.")
             if strict_intersect:
                 raise ValueError(msg)
@@ -306,7 +310,7 @@ class Epistasis(object):
 
     def _write_to_csv(self):
         """Write an array to a csv file."""
-        logger.debug(f"Writing combined array to {self._array_csv}")
+        logger.debug("Writing combined array to " + self._array_csv)
         with open(self._array_csv, 'w') as output_file:
             output_file.writelines((','.join(str(v) for v in line) + '\n')
                                    for line in self._array_list)
