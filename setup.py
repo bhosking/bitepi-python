@@ -22,6 +22,9 @@ with open('README.md', 'r') as readme_file:
 setup(
     name='bitepi',
     version=VERSION,
+    packages=[
+        'bitepi',
+    ],
     description=('Python wrapper for the BitEpi program, for finding epistasis'
                  'interactions'),
     long_description=long_description,
