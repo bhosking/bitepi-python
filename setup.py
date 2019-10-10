@@ -42,11 +42,6 @@ setup(
     ext_modules=[
         bitepi_ext,
     ],
-    package_data={
-        'bitepi': [
-            'binary_source/*'
-        ]
-    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
