@@ -8,6 +8,7 @@ import pandas
 
 from bitepimodule import bitepi
 
+
 logger = logging.getLogger(__name__)
 BITEPI_BINARY = 'BitEpi.o'
 OUTPUT_SUFFIXES = {

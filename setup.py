@@ -1,8 +1,6 @@
 from setuptools import setup, Extension
 
 
-VERSION = '0.1.7'
-
 # the c++ extension module
 bitepi_ext = Extension(
     name='bitepimodule',
@@ -18,6 +16,10 @@ bitepi_ext = Extension(
 
 with open('README.md', 'r') as readme_file:
     long_description = readme_file.read()
+
+# Set __version__
+exec(open('bitepi/version.py').read())
+VERSION = __version__
 
 setup(
     name='bitepi',
