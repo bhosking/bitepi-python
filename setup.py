@@ -1,7 +1,7 @@
 from setuptools import setup, Extension
 
 
-VERSION = '0.1.6'
+VERSION = '0.1.7'
 
 # the c++ extension module
 bitepi_ext = Extension(
