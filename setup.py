@@ -52,4 +52,5 @@ setup(
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Scientific/Engineering :: Bio-Informatics',
     ],
+    python_requires='>=3'
 )
