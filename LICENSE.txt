@@ -1,8 +1,16 @@
 Supplementary CSIRO Open Source Software Licence v1.0
 ===============================================================
 
-This document is the Supplementary Licence described in the CSIRO Open Source Software Licence, a copy of which can be found below.
-The Software being licensed is 'bitepi'
+This document is the Supplementary Licence described in the CSIRO Open Source Software Licence, a copy of which can be found below.  
+The Software being licensed is 'BitEpi'
+
+Third Party Components
+----------------------
+The third party components listed below are distributed with the Software. You agree to comply with the license terms for these components as part of accessing the Software. Other third party software may also be identified in separate files distributed with the Software.
+
+C/C++ CSV file parser:
+
+https://sourceforge.net/projects/cccsvparser/
 
 
 CSIRO Open Source Software Licence v1.0
