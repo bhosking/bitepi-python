@@ -1,6 +1,6 @@
 ### bitepi
 
-bitepi is a python wrapper around the BitEpi project. It provides a pandas
+bitepi is a python wrapper around the BitEpi project found at [https://github.com/aehrc/BitEpi](https://github.com/aehrc/BitEpi). It provides a pandas
 interface for identification of epistasis interactions.
 It exposes a single **Epistasis** class, through which the analysis can be
 performed by calling **compute_epistasis**.
